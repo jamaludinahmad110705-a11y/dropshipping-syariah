@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace Busana Muslim</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; }
+    header { background: #2f9e44; padding: 15px; color: white; text-align: center; }
+    .container { padding: 20px; max-width: 1200px; margin: auto; }
+    .produk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-body { padding: 15px; }
+    .card-body h3 { margin: 0; font-size: 18px; }
+    .price { color: #2f9e44; font-weight: bold; margin: 10px 0; }
+    button { background: #2f9e44; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #2b8a3e; }
+    .cart, .ai-box { background: white; padding: 15px; border-radius: 10px; margin-top: 30px; }
+    footer { margin-top: 40px; text-align: center; padding: 15px; color: #555; }
+    .syariah { font-size: 13px; color: #2f9e44; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🕌 Marketplace Busana Muslim</h1>
+  <p>Produk Halal • Syar’i • Dropship Friendly</p>
+</header>
+
+<div class="container">
+  <h2>🛍️ Produk Pilihan</h2>
+
+  <div class="produk-grid">
+
+    <!-- GAMIS -->
+    <div class="card">
+      <img src= https://images.pexels.com/photos/8796042/pexels-photo-8796042.jpeg />
+ />
+      <div class="card-body">
+        <h3>Gamis Muslimah Premium</h3>
+        <p class="price">Rp 349.000</p>
+        <p>Gamis elegan, bahan adem & tidak menerawang.</p>
+        <p class="syariah">✔️ Sesuai syariat</p>
+        <button onclick="addToCart('Gamis Muslimah Premium', 349000)">Tambah ke Keranjang</button>
+      </div>
+    </div>
+
+    <!-- KOKO -->
+    <div class="card">
+      <img src=https://images.pexels.com/photos/8217705/pexels-photo-8217705.jpeg/>
+      <div class="card-body">
+        <h3>Baju Koko Modern</h3>
+        <p class="price">Rp 199.000</p>
+        <p>Koko modern, nyaman untuk ibadah & harian.</p>
+        <p class="syariah">✔️ Halal Fashion</p>
+        <button onclick="addToCart('Baju Koko Modern', 199000)">Tambah ke Keranjang</button>
+      </div>
+    </div>
+
+    <!-- SARUNG -->
+    <div class="card">
+      <img src=https://images.pexels.com/photos/14767236/pexels-photo-14767236.jpeg />
+      <div class="card-body>
+        h3>Sarung Tenun Nusantara/h3>
+        p class="price >Rp 159.000</p>
+        <p>Sarung lembut, cocok sholat & ngaji.</p>
+        <p class="syariah">✔️ Produk Muslim</p>
+        <button onclick="addToCart('Sarung Tenun Nusantara', 159000)">Tambah ke Keranjang</button>
+      </div>
+    </div>
+
+    <!-- MUKENA -->
+    <div class="card">
+      <img src="https://images.pexels.com/photos/9817141/pexels-photo-9817141.jpeg" />
+      <div class="card-body">
+        <h3>Mukena Rayon Premium</h3>
+        <p class="price">Rp 289.000</p>
+        <p>Mukena adem, ringan, dan nyaman sholat.</p>
+        <p class="syariah">✔️ Syar’i & nyaman</p>
+        <button onclick="addToCart('Mukena Rayon Premium', 289000)">Tambah ke Keranjang</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KERANJANG -->
+  <div class="cart">
+    <h3>🛒 Keranjang Belanja</h3>
+    <ul id="cartItems"></ul>
+    <p><strong>Total: Rp <span id="total">0</span></strong></p>
+    <button onclick="checkoutWA()" style="margin-top:10px;">Checkout via WhatsApp</button>
+  </div>
+
+  <!-- AI -->
+  <div class="ai-box">
+    <h3>🤖 Asisten AI Syariah</h3>
+    <input type="text" id="aiInput" placeholder="Cari gamis, koko, sarung..." style="width:100%;padding:8px;margin-bottom:8px;">
+    <button onclick="askAI()">Tanya AI</button>
+    <p id="aiResult">Assalamu’alaikum, saya siap bantu belanja kamu.</p>
+  </div>
+
+</div>
+
+<footer>
+  ©️ 2025 Marketplace Busana Muslim • Berbasis Syariah
+</footer>
+
+<script>
+let products = JSON.parse(localStorage.getItem('cart')) || [];
+let total = 0;
+
+function loadCart() {
+  const list = document.getElementById('cartItems');
+  list.innerHTML = '';
+  total = 0;
+  products.forEach(p => {
+    const li = document.createElement('li');
+    li.textContent = `${p.name} x${p.qty}`;
+    list.appendChild(li);
+    total += p.price * p.qty;
+  });
+  document.getElementById('total').textContent = total.toLocaleString('id-ID');
+}
+
+function addToCart(name, price) {
+  const item = products.find(p => p.name === name);
+  if (item) item.qty++;
+  else products.push({ name, price, qty: 1 });
+  localStorage.setItem('cart', JSON.stringify(products));
+  loadCart();
+}
+
+function checkoutWA() {
+  let text = 'Assalamu’alaikum, saya mau pesan:%0A';
+  products.forEach(p => {
+    text += `- ${p.name} x${p.qty}%0A`;
+  });
+  text += `Total: Rp ${total.toLocaleString('id-ID')}`;
+  window.open(`https://wa.me/6289602662767?text=${text}`);
+}
+
+function askAI() {
+  const q = document.getElementById('aiInput').value.toLowerCase();
+  let res = 'Saya bisa rekomendasikan produk busana muslim.';
+  if (q.includes('gamis')) res = 'Gamis Muslimah Premium cocok untuk acara & harian.';
+  if (q.includes('koko')) res = 'Baju Koko Modern nyaman untuk ibadah.';
+  if (q.includes('mukena')) res = 'Mukena Rayon Premium paling laris.';
+  document.getElementById('aiResult').textContent = res;
+}
+
+loadCart();
+</script>
+
+</body>
+</html>
